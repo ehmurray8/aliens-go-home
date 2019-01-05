@@ -2,10 +2,25 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {getCanvasPosition} from './utils/formulas';
 import Canvas from "./components/Canvas";
+import * as Auth0 from 'auth0-web';
+
+Auth0.configure({
+  domain: 'ehmurray.auth0.com',
+  clientID: 'bC8nnMsfOa3fLwJYZXe9jM7PVshb4Rec',
+  redirectUri: 'http://localhost:3000/',
+  responseType: 'token id_token',
+  scope: 'openid profile manage:points',
+});
 
 class App extends Component {
   componentDidMount() {
     const self = this;
+
+    Auth0.handleAuthCallback();
+    Auth0.subscribe((auth) => {
+      console.log(auth);
+    });
+
     setInterval(() => {
       self.props.moveObjects(self.canvasMousePosition);
     }, 10);
@@ -37,10 +52,17 @@ class App extends Component {
 App.propTypes = {
     angle: PropTypes.number.isRequired,
     gameState: PropTypes.shape({
+      flyingObjects: PropTypes.arrayOf(PropTypes.shape({
+        position: PropTypes.shape({
+          x: PropTypes.number.isRequired,
+          y: PropTypes.number.isRequired,
+        }).isRequired,
+        id: PropTypes.number.isRequired,
+      })).isRequired,
       started: PropTypes.bool.isRequired,
       kills: PropTypes.number.isRequired,
       lives: PropTypes.number.isRequired,
-    }),
+    }).isRequired,
     moveObjects: PropTypes.func.isRequired,
     startGame: PropTypes.func.isRequired,
 };
