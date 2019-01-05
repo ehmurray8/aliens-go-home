@@ -8,6 +8,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html, body {
+  /* Hides Html and Body elements, and removes the scroll bar */
+  overflow: hidden;
+  height: 100%;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
