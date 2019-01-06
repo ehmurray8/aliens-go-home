@@ -6,3 +6,5 @@ export const createInterval = 1000;
 export const maxFlyingObjects = 4;
 export const flyingObjectsStarterYAxis = -1100;
 export const flyingObjectStarterPositions = [-300, -150, 150, 300];
+
+export const startingLives = 5;
